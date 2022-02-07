@@ -1,18 +1,9 @@
-import TeaSchool from '../../src/index';
+import * as TeaSchool from '../../src/index';
 import * as pug from 'pug';
 import * as path from 'path';
 import {PDFOptions} from 'puppeteer';
-import {Options as SassOptions} from 'node-sass';
 
 (async () => {
-    /********************************
-     *         STYLE OPTIONS        *
-     ********************************/
-    const styleOptions: SassOptions = {
-        // Get relative path from cwd to the desired file
-        file: path.resolve(__dirname, 'invoice-pdf.scss'),
-    };
-
     /********************************
      *      TEMPLATE FILE PATH      *
      ********************************/
@@ -51,14 +42,14 @@ import {Options as SassOptions} from 'node-sass';
     const pdfOptions: PDFOptions = {
         // Output path will be relative
         path: path.resolve(__dirname, 'output', 'invoice.pdf'),
-        format: 'A4',
+        format: 'a4',
     };
 
     /********************************
      *      PUTTING IT TOGETHER     *
      ********************************/
     const teaSchoolOptions: TeaSchool.GeneratePdfOptions = {
-        styleOptions,
+        styleOptionsPath: path.resolve(__dirname, 'invoice-pdf.scss'),
         htmlTemplatePath,
         htmlTemplateOptions,
         pdfOptions,

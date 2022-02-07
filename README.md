@@ -1,6 +1,8 @@
 # Tea-School
+Based on https://github.com/AmirTugi/tea-school
+
 Simplified `HTML + CSS --> PDF` Generator for Nodejs  
-Basically just a method combining [PugJS](https://github.com/pugjs/pug), [Node-Sass](https://github.com/sass/node-sass), and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
+Basically just a method combining [PugJS](https://github.com/pugjs/pug), [Dart-Sass](https://github.com/sass/dart-sass), and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
 
 ## Read More
 Read more about the package in my [medium post](https://itnext.io/tea-school-js-generate-a-pdf-file-from-html-and-css-in-node-js-32529f9b0f37)
@@ -8,18 +10,18 @@ Read more about the package in my [medium post](https://itnext.io/tea-school-js-
 ## Install
 Using `npm`
 ```bash
-> npm install tea-school
+> npm install @recursyve/tea-school
 ```
 Using `yarn`
 ```bash
-> yarn add tea-school
+> yarn add @recursyve/tea-school
 ```
 
 ## What Do We Have Here?
 The library doesn't really do anything special.  
 It just combines 3 libraries for:
 * Generating HTML in run-time ([PugJS](https://github.com/pugjs/pug))
-* Generating CSS (Using [Sass](https://sass-lang.com/)) in run-time ([Node-Sass](https://github.com/sass/node-sass))
+* Generating CSS (Using [Sass](https://sass-lang.com/)) in run-time ([Dart-Sass](https://github.com/sass/dart-sass))
 * Generating a PDF from HTML ([Puppeteer](https://github.com/GoogleChrome/puppeteer))
 
 ## Usage
@@ -35,11 +37,7 @@ import * as path from 'path';
 
 const options: GeneratePdfOptions = {
     htmlTemplatePath: path.resolve(__dirname, 'pdf-template.pug'),
-
-    // Here you put an object according to https://github.com/sass/node-sass#options 
-    styleOptions: {
-        file: path.resolve(__dirname, 'pdf-template.scss')
-    },
+    styleOptionsPath: path.resolve(__dirname, 'pdf-template.scss'),
 
     // Here you put an object according to https://pugjs.org/api/reference.html#options
     // You can add any additional key to be used as a variable in the template.
@@ -51,7 +49,7 @@ const options: GeneratePdfOptions = {
     pdfOptions: {
         // Ignore `path` to get the PDF as buffer only
         path: 'pdf-file.pdf',
-        format: 'A4',
+        format: 'a4',
         printBackground: true
     }
 }

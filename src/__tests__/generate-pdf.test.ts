@@ -1,17 +1,18 @@
-import TeaSchool from '../index';
-import {Options as SassOptions} from 'node-sass';
+import * as fs from "fs";
+import * as path from "path";
+import * as TeaSchool from '../index';
 import * as pug from 'pug';
 import {PDFOptions} from 'puppeteer';
 
 describe('generatePdf function test', () => {
     it('should create a pdf in memory', async () => {
-        const styleOptions: SassOptions = {
-            data: `
+        const styles =  `
                 body {
                     background-color: yellow;
                 }
-            `
-        };
+            `;
+        const styleOptionsPath = path.join(__dirname, "style.scss");
+        fs.writeFileSync(styleOptionsPath, styles);
 
         const htmlTemplateOptions: pug.LocalsObject = {
             name: 'Timothy',
@@ -26,7 +27,7 @@ describe('generatePdf function test', () => {
         };
 
         const teaSchoolOptions: TeaSchool.GeneratePdfOptions = {
-            styleOptions,
+            styleOptionsPath,
             htmlTemplateFn,
             htmlTemplateOptions,
             pdfOptions: {} as PDFOptions
@@ -35,5 +36,6 @@ describe('generatePdf function test', () => {
         // We don't really care what happens with the pdf itself. This is Puppeteer responsibility.
         // We just don't want it to crash.
         await TeaSchool.generatePdf(teaSchoolOptions);
+        fs.unlinkSync(styleOptionsPath);
     });
 });
