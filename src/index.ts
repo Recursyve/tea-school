@@ -1,6 +1,6 @@
 import * as pug from 'pug';
 import * as sass from 'sass';
-import puppeteer, { LaunchOptions, PDFOptions } from "puppeteer";
+import puppeteer, { BrowserConnectOptions, BrowserLaunchArgumentOptions, LaunchOptions, PDFOptions } from "puppeteer";
 import { Options as SassOptions } from 'sass';
 
 export interface GeneratePdfOptions {
@@ -10,7 +10,7 @@ export interface GeneratePdfOptions {
     htmlTemplatePath?: string;
     htmlTemplateOptions?: pug.Options & pug.LocalsObject;
     pdfOptions?: PDFOptions;
-    puppeteerOptions?: LaunchOptions;
+    puppeteerOptions?: LaunchOptions & BrowserLaunchArgumentOptions & BrowserConnectOptions;
 }
 
 export const generatePdf = async (options: GeneratePdfOptions): Promise<Buffer> => {
