@@ -13,6 +13,12 @@ export interface GeneratePdfOptions {
     puppeteerOptions?: LaunchOptions & BrowserLaunchArgumentOptions & BrowserConnectOptions;
 }
 
+export interface GeneratePdfOptionsFromUrl {
+    url: string;
+    pdfOptions?: PDFOptions;
+    puppeteerOptions?: LaunchOptions & BrowserLaunchArgumentOptions & BrowserConnectOptions;
+}
+
 export const generatePdf = async (options: GeneratePdfOptions): Promise<Buffer> => {
     const browser = await puppeteer.launch(options.puppeteerOptions);
     const page = await browser.newPage();
@@ -38,6 +44,19 @@ export const generatePdf = async (options: GeneratePdfOptions): Promise<Buffer> 
     await page.setContent(renderedTemplate, {
         waitUntil: ['load', 'domcontentloaded', 'networkidle0'],
     });
+
+    const pdfBuffer = await page.pdf({...options.pdfOptions});
+
+    await browser.close();
+
+    return pdfBuffer
+};
+
+export const generatePdfFromUrl = async (options: GeneratePdfOptionsFromUrl): Promise<Buffer> => {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    await page.goto(options.url, { waitUntil: ['load', 'domcontentloaded', 'networkidle0'] });
 
     const pdfBuffer = await page.pdf({...options.pdfOptions});
 
